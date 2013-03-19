@@ -1,0 +1,47 @@
+<doctype html>
+<html>
+	<head>
+		<title>aka Panel</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+		<link rel="icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="static/aka.css" />
+		<meta name="robots" content="noindex,nofollow" />
+		<script type="text/javascript" src="static/ajax.js"></script>
+		<script type="text/javascript" src="static/ui.js"></script>
+		<script type="text/javascript" src="static/aka.js"></script>
+	</head>
+	<body onload="init()">
+		<div id="sys-head">
+			<span id="sysver">AKA DNS Panel</span>
+			<span id="status-label">Last Result: </span>
+			<span id="status-message">N/A</span>
+		</div>
+	
+		<div id="panel-head">
+			<h1 id="head-name">N/A</h1><br />
+			<span id="head-info">
+				<span class="info-title">Hostname</span>
+				<span id="info-hostname" class="info-item">N/A</span>
+				<span class="info-title" style="padding-left:1em;">MAC</span>
+				<span id="info-mac" class="info-item">N/A</span>
+			</span>
+		</div>
+		<div id="config">
+			Configured Aliases:
+			<input type="text" id="alias-input" onkeydown="if (event.keyCode == 13) createAlias(this)" />
+		</div>
+		<div id="view">
+			<div style="text-align:center;">
+				<h2>Other people on your network</h2>
+			</div>
+			<table id="network-table" style="width:100%;padding:0.5em;">
+			</table>
+		</div>
+		<div style="text-align:right;padding:0.3em 1em 0 1em;">
+			<a href="http://dev.cbcdn.com/akadns">[source]</a>
+			<a href="http://www.kopimi.com/kopimi/"><img src="static/kopimi.png"/></a>
+			<a href="http://wtfpl.net/"><img src="static/wtfpl.png"/></a>
+		</div>
+	</body>
+</html>
