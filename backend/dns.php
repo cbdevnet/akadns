@@ -5,6 +5,12 @@
 	*/
 	
 	/**
+		This program is free software. It comes without any warranty, to
+		the extent permitted by applicable law. You can redistribute it
+		and/or modify it under the terms of the Do What The Fuck You Want
+		To Public License, Version 2, as published by Sam Hocevar and 
+		reproduced below.
+
 		DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
 		Version 2, December 2004 
 
@@ -40,6 +46,8 @@
 	//initialize often-used vars because im a lazy typer
 	$REMOTE=$_SERVER["REMOTE_ADDR"];
 	
+	$MAX_ALIAS_LEN=20;
+
 	//set blank status
 	$ret["status"]="No action";
 	$ret["code"]=1;
@@ -103,7 +111,7 @@
 		
 		//check if connected from an active lease
 		if(!isset($leases[$REMOTE])){
-			$ret["status"]="Not connecting from a leased address";
+			$ret["status"]="Not connecting from a leased address (".$REMOTE.")";
 			$ret["code"]=0;
 			flock($fHosts,LOCK_UN);
 			fclose($fHosts);
@@ -133,45 +141,51 @@
 		
 		//add an alias
 		if(isset($_GET["add"])&&isset($_POST["alias"])){
-			//check if valid
-			if(preg_match("/^[a-zA-Z0-9][a-zA-Z0-9\-\_]+[a-zA-Z0-9]$/",$_POST["alias"])){
-				//valid name, check for existence
-				$avail=true;
+			if(strlen($_POST["alias"])<$MAX_ALIAS_LEN){
+				//check if valid
+				if(preg_match("/^[a-zA-Z0-9][a-zA-Z0-9\-\_]+[a-zA-Z0-9]$/",$_POST["alias"])){
+					//valid name, check for existence
+					$avail=true;
 				
-				$kLeases=array_keys($leases);
+					$kLeases=array_keys($leases);
 				
-				for($i=0;$i<count($kLeases);$i++){
-					if($leases[$kLeases[$i]]["hostname"]==$_POST["alias"]){
-						$avail=false;
-						$ret["status"]="Alias is already a hostname";
-						$ret["code"]=0;
-						break;
-					}
-					if($avail&&isset($leases[$kLeases[$i]]["aliases"])){
-						foreach($leases[$kLeases[$i]]["aliases"] as $cAlias){
-							if($cAlias==$_POST["alias"]){
-								$avail=false;
-								$ret["status"]="Alias is already taken";
-								$ret["code"]=0;
-								break;
+					for($i=0;$i<count($kLeases);$i++){
+						if($leases[$kLeases[$i]]["hostname"]==$_POST["alias"]){
+							$avail=false;
+							$ret["status"]="Alias is already a hostname";
+							$ret["code"]=0;
+							break;
+						}
+						if($avail&&isset($leases[$kLeases[$i]]["aliases"])){
+							foreach($leases[$kLeases[$i]]["aliases"] as $cAlias){
+								if($cAlias==$_POST["alias"]){
+									$avail=false;
+									$ret["status"]="Alias is already taken";
+									$ret["code"]=0;
+									break;
+								}
 							}
 						}
 					}
+					if($avail){
+						//add to array
+						if(!isset($leases[$REMOTE]["aliases"])){
+							$leases[$REMOTE]["aliases"][0]=$_POST["alias"];
+						}
+						else{
+							$leases[$REMOTE]["aliases"][count($leases[$REMOTE]["aliases"])]=$_POST["alias"];
+						}
+						$BUFDIRTY=true;
+					}
 				}
-				if($avail){
-					//add to array
-					if(!isset($leases[$REMOTE]["aliases"])){
-						$leases[$REMOTE]["aliases"][0]=$_POST["alias"];
-					}
-					else{
-						$leases[$REMOTE]["aliases"][count($leases[$REMOTE]["aliases"])]=$_POST["alias"];
-					}
-					$BUFDIRTY=true;
+				else{
+					$ret["status"]="Alias contains invalid character";
+					$ret["code"]=0;
 				}
 			}
 			else{
-				$ret["status"]="Alias contains invalid character";
-				$ret["code"]=0;
+				$ret["status"]="Alias too long";
+				$ret["code"]=0;					
 			}
 		}
 		
