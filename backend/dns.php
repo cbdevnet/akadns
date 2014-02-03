@@ -143,7 +143,7 @@
 		if(isset($_GET["add"])&&isset($_POST["alias"])){
 			if(strlen($_POST["alias"])<$MAX_ALIAS_LEN){
 				//check if valid
-				if(preg_match("/^[a-zA-Z0-9][a-zA-Z0-9\-\_]+[a-zA-Z0-9]$/",$_POST["alias"])){
+				if(preg_match("/^[a-zA-Z0-9][a-zA-Z0-9\-]+[a-zA-Z0-9]$/",$_POST["alias"])){
 					//valid name, check for existence
 					$avail=true;
 				
