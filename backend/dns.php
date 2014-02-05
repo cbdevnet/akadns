@@ -150,7 +150,7 @@
 					$kLeases=array_keys($leases);
 				
 					for($i=0;$i<count($kLeases);$i++){
-						if($leases[$kLeases[$i]]["hostname"]==$_POST["alias"]){
+						if(strcasecmp($leases[$kLeases[$i]]["hostname"], $_POST["alias"]) == 0){
 							$avail=false;
 							$ret["status"]="Alias is already a hostname";
 							$ret["code"]=0;
