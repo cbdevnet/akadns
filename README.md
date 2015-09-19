@@ -14,9 +14,3 @@ Working as intended
 
 Early bugfixing 
 ![akadns bugging](screenshots/aka_bug.png) 
-
-TODO
-====
-Make the reverse name selectable
-
-Handle unnamed hosts (no DHCP Hostname sent)
