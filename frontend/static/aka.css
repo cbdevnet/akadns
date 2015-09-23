@@ -64,6 +64,7 @@ h2{
 	background-color:#afa;
 	cursor:default;
 	margin-left:0.3em;
+	text-decoration:none;
 }
 
 .alias:hover{

@@ -59,7 +59,8 @@ function createNetworkTableEntry(ip,data){
 	var thirdCol=document.createElement("td");
 	if(data["aliases"]){
 		for(var i=0;i<data["aliases"].length;i++){
-			var aliasElem=createElementWithText("span",data["aliases"][i]);
+			var aliasElem=createElementWithText("a",data["aliases"][i]);
+			aliasElem.href="http://"+data["aliases"][i]+"/";
 			aliasElem.setAttribute("class","alias");
 			thirdCol.appendChild(aliasElem);
 		}

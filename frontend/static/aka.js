@@ -22,7 +22,7 @@
 /**
 	Configuration and stuff
 */
-var SERVER_URL="http://devvm/dns.php";
+var SERVER_URL="../backend/dns.php";
 var CURRENT_HASH;
 
 function queryData(){
